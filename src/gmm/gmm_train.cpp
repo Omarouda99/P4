@@ -14,7 +14,6 @@ const unsigned int DEF_ITERATIONS = 20;
 const float DEF_THR = 1e-3;
 const unsigned int DEF_NMIXTURES = 5;
 const string DEF_GMMFILE = "output.gmm";
-extern int errno;
 
 
 int read_data(const string & input_directory, const string & input_extension,
