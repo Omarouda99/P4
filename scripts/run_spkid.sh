@@ -86,6 +86,16 @@ compute_lp() {
     done
 }
 
+compute_mfcc() {
+    db=$1
+    shift
+    for filename in $(sort $*); do
+        mkdir -p `dirname $w/$FEAT/$filename.$FEAT`
+        EXEC="wav2mfcc 8 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
+        echo $EXEC && $EXEC || exit 1
+    done
+}
+
 #  Set the name of the feature (not needed for feature extraction itself)
 if [[ ! -v FEAT && $# > 0 && "$(type -t compute_$1)" = function ]]; then
     FEAT=$1
@@ -195,7 +205,7 @@ for cmd in $*; do
        # candidato para la señal a verificar. En $FINAL_VERIF se pide que la tercera columna sea 1,
        # si se considera al candidato legítimo, o 0, si se considera impostor. Las instrucciones para
        # realizar este cambio de formato están en el enunciado de la práctica.
-        #EL NUMERO -3.214 S'HA DE CANVIARRRRRRRR!!! OJITOOOOOO!!!
+       #EL NUMERO -3.214 S'HA DE CANVIARRRRRRRR!!! OJITOOOOOO!!!
 
        compute_$FEAT $db_test $lists/final/verif.test
        EXEC="gmm_verify -d $w/$FEAT -e $FEAT -D $w/gmm/$FEAT -E gmm lists/gmm.list lists/final/verif.test lists/final/verif.test.candidates"
