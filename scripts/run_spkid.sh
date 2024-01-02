@@ -81,7 +81,7 @@ compute_lp() {
     shift
     for filename in $(sort $*); do
         mkdir -p `dirname $w/$FEAT/$filename.$FEAT`
-        EXEC="wav2lp 8 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
+        EXEC="wav2lp 16 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
         echo $EXEC && $EXEC || exit 1
     done
 }
@@ -91,7 +91,7 @@ compute_mfcc() {
     shift
     for filename in $(sort $*); do
         mkdir -p `dirname $w/$FEAT/$filename.$FEAT`
-        EXEC="wav2mfcc 23 22 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
+        EXEC="wav2mfcc 20 35 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
         echo $EXEC && $EXEC || exit 1
     done
 }
@@ -128,7 +128,7 @@ for cmd in $*; do
 
    if [[ $cmd == train ]]; then
        ## @file
-       # \TODO
+       # \DONE
        # Select (or change) good parameters for gmm_train
        for dir in $db_devel/BLOCK*/SES* ; do
            name=${dir/*\/}

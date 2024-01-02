@@ -56,7 +56,7 @@ int main(int argc, const char *argv[])
 
 	GMM gmm;
 
-	/// \TODO Initialize GMM from data; initially, you should implement random initialization.
+	/// \DONE Initialize GMM from data; initially, you should implement random initialization.
 	///
 	/// Other alternatives are: vq, em_split... See the options of the program and place each
 	/// initicialization accordingly.
@@ -75,7 +75,7 @@ int main(int argc, const char *argv[])
 			break;
 	}
 
-	/// \TODO Apply EM to estimate GMM parameters (complete the funcion in gmm.cpp)
+	/// \DONE Apply EM to estimate GMM parameters (complete the funcion in gmm.cpp)
 	gmm.em(data,em_iterations,em_threshold,verbose);
 	//Create directory, if it is needed
 	gmm_filename.checkDir();

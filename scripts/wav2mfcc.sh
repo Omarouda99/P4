@@ -17,8 +17,8 @@ cleanup() {
    \rm -f $base.*
 }
 
-if [[ $# != 3 ]]; then
-   echo "$0 mfcc_order input.wav output.mfcc"
+if [[ $# != 4 ]]; then
+   echo "$0 mfcc_order mfcc_nfilter input.wav output.mfcc"
    exit 1
 fi
 
