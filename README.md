@@ -48,13 +48,26 @@ ejercicios indicados.
 
 - Inserte una imagen mostrando la dependencia entre los coeficientes 2 y 3 de las tres parametrizaciones
   para todas las señales de un locutor.
-  FEAT=lp run_spkid lp
-  FEAT=lpcc run_spkid lpcc
-  FEAT=mfcc run_spkid mfcc
+
   + Indique **todas** las órdenes necesarias para obtener las gráficas a partir de las señales 
     parametrizadas.
-  + ¿Cuál de ellas le parece que contiene más información?
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.sh
+    FEAT=lp run_spkid lp
+    FEAT=lpcc run_spkid lpcc
+    FEAT=mfcc run_spkid mfcc
+    fmatrix_show work/lp/BLOCK01/SES017/*.lp | egrep '^\[' | cut -f4,5 > lp_2_3.txt
+    fmatrix_show work/lpcc/BLOCK01/SES017/*.lpcc | egrep '^\[' | cut -f4,5 > lpcc_2_3.txt 
+    fmatrix_show work/mfcc/BLOCK01/SES017/*.mfcc | egrep '^\[' | cut -f4,5 > mfcc_2_3.txt
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    > Además usaremos el codigo de matlab parametrizacion.m para observar las graficas
+    > ![param_lp](https://github.com/Omarouda99/P4/assets/99822243/ae4610c2-8a11-44a0-8039-ea11bac4a0bc)
+    > ![param_lpcc](https://github.com/Omarouda99/P4/assets/99822243/22780f58-9d55-47a9-b1e8-b41e07b63a24)
+    > ![param_mfcc](https://github.com/Omarouda99/P4/assets/99822243/83d0251a-cc79-427a-a32b-1e5a8269aed9)
 
+
+  + ¿Cuál de ellas le parece que contiene más información?
+    >LPCC y MFCC tienen los coeficientes más incorrelados, por lo tanto tendremos más información. De hecho, el caso de MFCC parece incluso más disperso. Sin embargo podemos ver que la parametrización LP tiene correlación (sus puntos están más o menos ordenados), eso nos indica que no tenemos mucha información.
+    
 - Usando el programa <code>pearson</code>, obtenga los coeficientes de correlación normalizada entre los
   parámetros 2 y 3 para un locutor, y rellene la tabla siguiente con los valores obtenidos.
 
@@ -63,9 +76,11 @@ ejercicios indicados.
   | &rho;<sub>x</sub>[2,3] |-0.873524|0.150782|-0.139062|
   
   + Compare los resultados de <code>pearson</code> con los obtenidos gráficamente.
+    >Cuanto más cercano a 1 es el valor absoluto de la rho, más correlado será la parametrización. En este caso, el valor más cercano a 1 es el de LP, tal y como hemos visto en las graficas, y tambiñen MFCC es el más alejado, como hemos comprovado tambien en las graficas.
   
 - Según la teoría, ¿qué parámetros considera adecuados para el cálculo de los coeficientes LPCC y MFCC?
-
+  > La teoría dice que para el cálculo de LPCC debería ser suficiente con 13 coeficientes, mientras que para MFCC se suelen escoger 13 coeficientes y entre 24 y 40 filtros.
+  
 ### Entrenamiento y visualización de los GMM.
 
 Complete el código necesario para entrenar modelos GMM.
