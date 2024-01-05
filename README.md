@@ -94,7 +94,8 @@ Complete el código necesario para entrenar modelos GMM.
   del modelado GMM para diferenciar las señales de uno y otro.
   >![poblacion1_mfcc](https://github.com/Omarouda99/P4/assets/99822243/34a80ec8-66ea-4302-b0f7-b22ab5e03ea3)
   >![poblacion2_mfcc](https://github.com/Omarouda99/P4/assets/99822243/c4f1efd3-133d-452d-bfc1-d5cfe75005ad)
-  > El locutor de la primera grafica está mejor modelado que la segunda debido a que el modelo GMM corresponde al primer locutor
+  >
+  >El locutor de la primera grafica está mejor modelado que la segunda debido a que el modelo GMM corresponde al primer locutor
 
 
 ### Reconocimiento del locutor.
