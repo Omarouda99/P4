@@ -48,7 +48,9 @@ ejercicios indicados.
 
 - Inserte una imagen mostrando la dependencia entre los coeficientes 2 y 3 de las tres parametrizaciones
   para todas las señales de un locutor.
-  
+  FEAT=lp run_spkid lp
+  FEAT=lpcc run_spkid lpcc
+  FEAT=mfcc run_spkid mfcc
   + Indique **todas** las órdenes necesarias para obtener las gráficas a partir de las señales 
     parametrizadas.
   + ¿Cuál de ellas le parece que contiene más información?
