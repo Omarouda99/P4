@@ -86,22 +86,22 @@ compute_lp() {
     done
 }
 
-compute_mfcc() {
-    db=$1
-    shift
-    for filename in $(sort $*); do
-        mkdir -p `dirname $w/$FEAT/$filename.$FEAT`
-        EXEC="wav2mfcc 20 35 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
-        echo $EXEC && $EXEC || exit 1
-    done
-}
-
 compute_lpcc() {
     db=$1
     shift
     for filename in $(sort $*); do
         mkdir -p `dirname $w/$FEAT/$filename.$FEAT`
         EXEC="wav2lpcc 25 25 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
+        echo $EXEC && $EXEC || exit 1
+    done
+}
+
+compute_mfcc() {
+    db=$1
+    shift
+    for filename in $(sort $*); do
+        mkdir -p `dirname $w/$FEAT/$filename.$FEAT`
+        EXEC="wav2mfcc 20 37 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
         echo $EXEC && $EXEC || exit 1
     done
 }
@@ -221,7 +221,7 @@ for cmd in $*; do
        EXEC="gmm_verify -d $w/$FEAT -e $FEAT -D $w/gmm/$FEAT -E gmm lists/gmm.list lists/final/verif.test lists/final/verif.test.candidates"
        echo $EXEC && $EXEC | tee $TEMP_VERIF || exit 1
        perl -ane 'print "$F[0]\t$F[1]\t";
-        if ($F[2] > -3.214) {print "1\n"}     
+        if ($F[2] > -5.95108562803402) {print "1\n"}     
         else {print "0\n"}' $TEMP_VERIF | tee $FINAL_VERIF
    
    # If the command is not recognize, check if it is the name

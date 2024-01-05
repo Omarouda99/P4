@@ -18,7 +18,7 @@ cleanup() {
 }
 
 if [[ $# != 4 ]]; then
-   echo "$0 lpc_order lpc2c_order input.wav output.lp"
+   echo "$0 lpc_order lpcc_order input.wav output.lp"
    exit 1
 fi
 
@@ -47,13 +47,13 @@ fi
 
 # Main command for feature extration
 sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WINDOW -l 240 -L 240 |
-	$LPC -l 240 -m $lpc_order | $LPCC -m $lpc_order -M $lpcc_order > $base.lp || exit 1
+	$LPC -l 240 -m $lpc_order | $LPCC -m $lpc_order -M $lpcc_order > $base.lpcc || exit 1
    
 
 # Our array files need a header with the number of cols and rows:
-ncol=$((lpcc_order+1)) # lpc p =>  (gain a1 a2 ... ap) 
-nrow=`$X2X +fa < $base.lp | wc -l | perl -ne 'print $_/'$ncol', "\n";'`
+ncol=$((lpcc_order+1)) # lpcc p =>  (gain a1 a2 ... ap) 
+nrow=`$X2X +fa < $base.lpcc | wc -l | perl -ne 'print $_/'$ncol', "\n";'`
 
 # Build fmatrix file by placing nrow and ncol in front, and the data after them
 echo $nrow $ncol | $X2X +aI > $outputfile
-cat $base.lp >> $outputfile
+cat $base.lpcc >> $outputfile

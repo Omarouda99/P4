@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Make pipeline return code the last non-zero one or zero if all the commands return zero.
-set -o pipefail
+
 
 ## \file
 ## \TODO This file implements a very trivial feature extraction; use it as a template for other front ends.
@@ -53,3 +53,5 @@ nrow=`$X2X +fa < $base.lp | wc -l | perl -ne 'print $_/'$ncol', "\n";'`
 # Build fmatrix file by placing nrow and ncol in front, and the data after them
 echo $nrow $ncol | $X2X +aI > $outputfile
 cat $base.lp >> $outputfile
+
+exit
