@@ -34,6 +34,7 @@ FINAL_VERIF=$w/verif_test.log
 # temporal para almacenar este resultado intermedio
 TEMP_VERIF=$w/temp_${FEAT:-$1}_${name_exp}.log
 
+
 # ------------------------
 # Usage
 # ------------------------
@@ -133,7 +134,7 @@ for cmd in $*; do
        for dir in $db_devel/BLOCK*/SES* ; do
            name=${dir/*\/}
            echo $name ----
-           EXEC="gmm_train -v 1 -T 0.001 -N 5 -m 5 -d $w/$FEAT -e $FEAT -g $w/gmm/$FEAT/$name.gmm $lists/class/$name.train"
+           EXEC="gmm_train -v 1 -T 0.000001 -N 32 -m 64 -d $w/$FEAT -e $FEAT -g $w/gmm/$FEAT/$name.gmm $lists/class/$name.train"
            echo $EXEC && $EXEC || exit 1
            echo
        done
@@ -160,8 +161,8 @@ for cmd in $*; do
        #
        # - The name of the world model will be used by gmm_verify in the 'verify' command below.
        world="users_and_others"
-       EXEC="gmm_train -v 1 -T 0.001 -N 5 -m 5 -d $w/$FEAT -e $FEAT -g $w/gmm/$FEAT/$world.gmm $lists/verif/$world.train"
-       echo "Implement the trainworld option ..."
+       EXEC="gmm_train -v 1 -T 0.000001 -N 32 -m 64 -d $w/$FEAT -e $FEAT -g $w/gmm/$FEAT/$world.gmm $lists/verif/$world.train"
+       echo $EXEC && $EXEC || exit 1
 
    elif [[ $cmd == verify ]]; then
        ## @file
@@ -172,9 +173,8 @@ for cmd in $*; do
        #   For instance:
        #   * <code> gmm_verify ... > $LOG_VERIF </code>
        #   * <code> gmm_verify ... | tee $LOG_VERIF </code>
-       EXEC="gmm_verify -d $w/$FEAT -e $FEAT -D $w/gmm/$FEAT -E gmm lists/gmm.list lists/verif/all.test lists/verif/all.test.candidates"
+       EXEC="gmm_verify -d $w/$FEAT -e $FEAT -D $w/gmm/$FEAT -E gmm -w $world lists/gmm.list lists/verif/all.test lists/verif/all.test.candidates"
        echo $EXEC && $EXEC | tee $LOG_VERIF || exit 1
-       echo "Implement the verify option ..."
 
    elif [[ $cmd == verifyerr ]]; then
        if [[ ! -s $LOG_VERIF ]] ; then
@@ -221,7 +221,7 @@ for cmd in $*; do
        EXEC="gmm_verify -d $w/$FEAT -e $FEAT -D $w/gmm/$FEAT -E gmm lists/gmm.list lists/final/verif.test lists/final/verif.test.candidates"
        echo $EXEC && $EXEC | tee $TEMP_VERIF || exit 1
        perl -ane 'print "$F[0]\t$F[1]\t";
-        if ($F[2] > -5.95108562803402) {print "1\n"}     
+        if ($F[2] > -4.97765787192693) {print "1\n"}     
         else {print "0\n"}' $TEMP_VERIF | tee $FINAL_VERIF
    
    # If the command is not recognize, check if it is the name
