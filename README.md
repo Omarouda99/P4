@@ -32,17 +32,48 @@ ejercicios indicados.
 - Analice el script `wav2lp.sh` y explique la misión de los distintos comandos involucrados en el *pipeline*
   principal (`sox`, `$X2X`, `$FRAME`, `$WINDOW` y `$LPC`). Explique el significado de cada una de las 
   opciones empleadas y de sus valores.
+   >En un principio, requerimos una entrada de señal en formato wav, y se nos genera un archivo denominado output.lp.
+   >También observamos que deberemos introducir 3 parmetros en un orden determinado. Primero el coeficiente de predicción lineal, después el fichero de entrada y finalmente el fichero de salida
+   
+   * SoX sirve para realizar tareas con ficheros de audio como pasar de un formato de señal o fichero a otro, realizar transformadas, reducción de ruido y otras operaciones de procesado de audio, reducción de ruido.
+   * x2x converts data from standard input to a different data type, sending the result to standard output. The input and output data type are specified by command line options as described below.
+
+   * frame converts a sequence of input data from infile (or standard input) to a series of
+possibly-overlapping frames with period P and length L, and sends the result to standard
+output.
+
+   * window multiplies, on an element-by-element basis, length L input vectors from infile (or
+standard input) by a specified windowing function, sending the result to standard output.
+
+   * lpc calculates linear prediction coefficients (LPC) from L-length framed windowed data
+from infile (or standard input), sending the result to standard output.
 
 - Explique el procedimiento seguido para obtener un fichero de formato *fmatrix* a partir de los ficheros de
   salida de SPTK (líneas 45 a 51 del script `wav2lp.sh`).
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.sh
+  # Our array files need a header with the number of cols and rows:
+  ncol=$((lpc_order+1)) # lpc p =>  (gain a1 a2 ... ap) 
+  nrow=`$X2X +fa < $base.lp | wc -l | perl -ne 'print $_/'$ncol', "\n";'`
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   * ¿Por qué es más conveniente el formato *fmatrix* que el SPTK?
+    >fmatrix permite un mejor orden de los datos
 
 - Escriba el *pipeline* principal usado para calcular los coeficientes cepstrales de predicción lineal
   (LPCC) en su fichero <code>scripts/wav2lpcc.sh</code>:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.sh
+  # Main command for feature extration
+  sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WINDOW -l 240 -L 240 |
+	$LPC -l 240 -m $lpc_order | $LPCC -m $lpc_order -M $lpcc_order > $base.lpcc || exit 1
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Escriba el *pipeline* principal usado para calcular los coeficientes cepstrales en escala Mel (MFCC) en su
   fichero <code>scripts/wav2mfcc.sh</code>:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.sh
+  # Main command for feature extration
+  sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WINDOW -l 240 -L 240 |
+	  $MFCC -l 240 -s 8 -m $mfcc_order -n $mfcc_nfilter > $base.mfcc || exit 1
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ### Extracción de características.
 
