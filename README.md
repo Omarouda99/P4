@@ -131,8 +131,17 @@ Complete el código necesario para realizar verificación del locutor y optimice
   
   ![image](https://github.com/Omarouda99/P4/assets/99822243/491ab926-05ea-4e18-bf2e-724a3fa33e57)
 
+  |                        | LP   | LPCC | MFCC |
+  |------------------------|:----:|:----:|:----:|
+  | threshold |0.129967328569992|-0.65094390278994|-0.0592828154588934|
+  | missed |0.01|0.008|0.036|
+  | false alarm |0.01|0.003|0.004|
+  | cost detection |41.1|3.5|7.2|
 
-
+Umbral óptimo	0.373737057570103	0.276933713207707	0.383636495059995
+Pérdidas	73/250 = 0.2920	7/250 = 0.0280	15/250 = 0.0600
+Falsas Alarmas	13/1000 = 0.0170	1/1000 = 0.0010	9/1000 = 0.0090
+Cost Detection	44.5	3.7	8.6
 
  
 ### Test final
